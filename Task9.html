@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td img {
+            width: 50px;
+            height: 50px;
+        }
+        .total {
+            font-weight: bold;
+            text-align: right;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        <table id="cart">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="total">Total:</td>
+                    <td id="totalPrice" class="total">$0.00</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+        <button class="btn" onclick="clearCart()">Clear Cart</button>
+    </div>
+
+    <script>
+        // Sample products
+        const products = [
+            { id: 1, name: 'Product 1', price: 10 },
+            { id: 2, name: 'Product 2', price: 15 },
+            { id: 3, name: 'Product 3', price: 20 }
+        ];
+
+        // Cart data
+        let cart = [];
+
+        // Function to display products in the cart
+        function displayCart() {
+            const tableBody = document.querySelector('#cart tbody');
+            let total = 0;
+
+            tableBody.innerHTML = '';
+
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td><input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${item.id}, this.value)"></td>
+                    <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                    <td><button class="btn" onclick="removeItem(${item.id})">Remove</button></td>
+                `;
+                tableBody.appendChild(row);
+                total += item.price * item.quantity;
+            });
+
+            document.getElementById('totalPrice').textContent = '$' + total.toFixed(2);
+        }
+
+        // Function to add a product to the cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const existingItem = cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+                }
+                displayCart();
+            }
+        }
+
+        // Function to update quantity of a product in the cart
+        function updateQuantity(productId, newQuantity) {
+            const product = cart.find(item => item.id === productId);
+            if (product) {
+                product.quantity = parseInt(newQuantity);
+                displayCart();
+            }
+        }
+
+        // Function to remove a product from the cart
+        function removeItem(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            displayCart();
+        }
+
+        // Function to clear the cart
+        function clearCart() {
+            cart = [];
+            displayCart();
+        }
+
+        // Initial display of the cart
+        displayCart();
+    </script>
+</body>
+</html>

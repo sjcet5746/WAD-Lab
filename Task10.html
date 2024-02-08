@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Application Form</title>
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        /* Your CSS styles */
+    </style>
+</head>
+<body>
+    <h1>Hostel Application Form</h1>
+    <form id="hostelForm" action="#" method="post">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label for="university">University:</label>
+        <input type="text" id="university" name="university" required>
+
+        <label for="course">Course:</label>
+        <input type="text" id="course" name="course" required>
+
+        <label for="year">Year of Study:</label>
+        <input type="text" id="year" name="year" required>
+
+        <label for="duration">Duration of Stay (months):</label>
+        <input type="text" id="duration" name="duration" required>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // jQuery code for form validation and submission
+        $(document).ready(function() {
+            $('#hostelForm').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                // Perform form validation
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var university = $('#university').val();
+                var course = $('#course').val();
+                var year = $('#year').val();
+                var duration = $('#duration').val();
+
+                if (name === '' || email === '' || university === '' || course === '' || year === '' || duration === '') {
+                    alert('All fields are required!');
+                    return;
+                }
+
+                // If all fields are filled, submit the form
+                // Here you can perform AJAX submission or any other action
+                alert('Form submitted successfully!');
+                // Example: $('#hostelForm').submit();
+            });
+        });
+    </script>
+</body>
+</html>
